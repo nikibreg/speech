@@ -1,8 +1,8 @@
 from flask import Flask
+from flask import render_template
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
-def hello():
-    return 'Hello, World!'
-print(__name__)
+def root():
+    return app.send_static_file('index.html')
