@@ -3,7 +3,7 @@ import os
 from werkzeug.utils import secure_filename
 from main import main
 
-UPLOAD_FOLDER = '/home/niki/speech/uploads'
+UPLOAD_FOLDER = '/uploads'
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "super secret key"
