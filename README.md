@@ -1,9 +1,12 @@
 # speech
 Speech recognition project for Python.2 Class
 
+http://pythonclass-speech-recognition.herokuapp.com
+
 ### How to run
 
 After cloning the repository with
+
 ```bash
 git clone https://github.com/nikibreg/speech.git
 cd speech
