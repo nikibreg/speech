@@ -1,12 +1,13 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
 import os
 from werkzeug.utils import secure_filename
-from main import main
+from recognition import recognize
 
 UPLOAD_FOLDER = 'uploads/'
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "super secret key"
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -19,15 +20,15 @@ def root():
         file = request.files['file']
         # if user does not select file, browser also
         # submit an empty part without filename
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+        # if file.filename == '':
+        #     flash('No selected file')
+        #     return redirect(request.url)
         if file:
             filename = secure_filename(file.filename)
             file.save(os.path.join(os.path.dirname(__file__), app.config['UPLOAD_FOLDER'], filename))
-            print(main())
-
-
+            recognizedString = recognize()
+            print(recognizedString)
+            return render_template('result.html', recognizedString=recognizedString) 
         
     # return '''
     # <!doctype html>
@@ -38,5 +39,7 @@ def root():
     #   <input type=submit value=Upload>
     # </form>
     # '''
-    return app.send_static_file('index.html')
+    if request.method == "GET":
+        return app.send_static_file('index.html')
 	
+

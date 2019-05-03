@@ -202,7 +202,16 @@ $.ajax({
     processData: false,
     contentType: false
 }).done(function(data) {
-       console.log(data);
+      console.log(data)
+        if (data) {
+            // data.redirect contains the string URL to redirect to
+            $("html").html(data);
+        }
+        else {
+            // data.form contains the HTML for the replacement form
+            // $("#myform").replaceWith(data.form);
+        }
+    
 });
     
 }
