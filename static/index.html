@@ -59,7 +59,7 @@ setTimeout(()=>{
                 recordedAudio.src = URL.createObjectURL(blob);
                 recordedAudio.controls = true;
                 audioDownload.href = recordedAudio.src;
-                audioDownload.download = 'audio.mp3';
+                audioDownload.download = 'audio.wav';
                 audioDownload.innerHTML = 'Download';
                 submit(blob)
             }
@@ -88,7 +88,7 @@ function stopRecording() {
 
 function submit(blob) {
     var fd = new FormData();
-fd.append('file', blob, 'audio.mp3');
+fd.append('file', blob, 'audio.wav');
 $.ajax({
     type: 'POST',
     url: '/',

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, request, redirect, url_for
 import os
 from werkzeug.utils import secure_filename
+from main import recorder
 
 UPLOAD_FOLDER = '/home/niki/speech/uploads'
 app = Flask(__name__, static_url_path='')
@@ -37,3 +38,13 @@ def root():
     # </form>
     # '''
     return app.send_static_file('index.html')
+	
+def main():
+    result = recorder()
+	
+    if type(result) == str:
+        return result
+    else:
+        print('try again.')
+		
+main()
