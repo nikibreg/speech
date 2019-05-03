@@ -17,7 +17,7 @@
     <div class="container">
 
         <p class="lead">Upload your audio file below:</p>
-        <form method="POST" action="/" enctype="multipart/form-data">
+        <form method="POST" action="/post" enctype="multipart/form-data">
             <input id="fileInput" name="file" type="file" />
             <input id="fileSubmit" type="submit" />
         </form>
@@ -196,7 +196,7 @@
             fd.append('file', blob, 'audio.wav');
             $.ajax({
                 type: 'POST',
-                url: '/',
+                url: '/post',
                 data: fd,
                 processData: false,
                 contentType: false
