@@ -12,3 +12,11 @@ def recorder():
         print("Sorry could not recognize what you said.")
     except sr.RequestError as e:
         print("Could not request result; {0}".format(e))
+
+def main():
+    return recorder()
+
+
+
+
+		
