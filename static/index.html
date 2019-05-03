@@ -15,41 +15,38 @@
             <font size="23">Speech Recognition</font>
         </b></h1>
     <div class="container">
-        
-        <div class="">
-              <h1>Automatic Guitar Music Transcription</h1>
-          </div>
-            <p class="lead">Upload your audio file below:</p>
-            <form method="POST" action="/" enctype="multipart/form-data">
-              <input id="fileInput" name="file" type="file" />
-              <input id="fileSubmit" type="submit" />
-            </form>
-          
-          <h1>Or record your audio here!</h1>
-          <div id="audio">
+
+        <p class="lead">Upload your audio file below:</p>
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <input id="fileInput" name="file" type="file" />
+            <input id="fileSubmit" type="submit" />
+        </form>
+
+        <h1>Or record your audio here!</h1>
+        <div id="audio">
             <p>
-              <button id="start-btn">Start recording</button>
-              <button id="stop-btn">Stop recording</button>
-          
-              
+                <button id="start-btn">Start recording</button>
+                <button id="stop-btn">Stop recording</button>
+
+
             </p>
             <p>
-              <audio id=recordedAudio></audio>
+                <audio id=recordedAudio></audio>
             </p>
             <p>
-              <a id=audioDownload></a>
+                <a id=audioDownload></a>
             </p>
-          </div>
-          <div>
+        </div>
+        <div>
             <!-- List item to store the recording files so they can be played in the browser -->
             <h2>Stored Recordings</h2>
             <ul id="recordingslist"></ul>
-          </div>
-          
+        </div>
+
     </div>
-   <script>
-       // Expose globally your audio_context, the recorder instance and audio_stream
-       var audio_context;
+    <script>
+        // Expose globally your audio_context, the recorder instance and audio_stream
+        var audio_context;
         var recorder;
         var audio_stream;
 
@@ -73,7 +70,7 @@
                 alert('No web audio support in this browser!');
             }
         }
- 
+
         /**
          * Starts the recording process by requesting the access to the microphone.
          * Then, if granted proceed to initialize the library and store the stream.
@@ -82,7 +79,9 @@
          */
         function startRecording() {
             // Access the Microphone using the navigator.getUserMedia method to obtain a stream
-            navigator.getUserMedia({ audio: true }, function (stream) {
+            navigator.getUserMedia({
+                audio: true
+            }, function (stream) {
                 // Expose the stream to be accessible globally
                 audio_stream = stream;
                 // Create the MediaStreamSource for the Recorder library
@@ -125,7 +124,7 @@
 
             // Use the Recorder Library to export the recorder Audio as a .wav file
             // The callback providen in the stop recording method receives the blob
-            if(typeof(callback) == "function"){
+            if (typeof (callback) == "function") {
 
                 /**
                  * Export the AudioBLOB using the exportWAV method.
@@ -145,23 +144,23 @@
         }
 
         // Initialize everything once the window loads
-        window.onload = function(){
+        window.onload = function () {
             // Prepare and check if requirements are filled
             Initialize();
 
             // Handle on start recording button
-            document.getElementById("start-btn").addEventListener("click", function(){
+            document.getElementById("start-btn").addEventListener("click", function () {
                 startRecording();
             }, false);
 
             // Handle on stop recording button
-            document.getElementById("stop-btn").addEventListener("click", function(){
+            document.getElementById("stop-btn").addEventListener("click", function () {
                 // Use wav format
                 var _AudioFormat = "audio/wav";
                 // You can use mp3 to using the correct mimetype
                 //var AudioFormat = "audio/mpeg";
 
-                stopRecording(function(AudioBLOB){
+                stopRecording(function (AudioBLOB) {
                     // Note:
                     // Use the AudioBLOB for whatever you need, to download
                     // directly in the browser, to upload to the server, you name it !
@@ -189,36 +188,34 @@
                 }, _AudioFormat);
             }, false);
         };
-    
 
 
-function submit(blob) {
-    var fd = new FormData();
-fd.append('file', blob, 'audio.wav');
-$.ajax({
-    type: 'POST',
-    url: '/',
-    data: fd,
-    processData: false,
-    contentType: false
-}).done(function(data) {
-      console.log(data)
-        if (data) {
-            // data.redirect contains the string URL to redirect to
-            $("html").html(data);
+
+        function submit(blob) {
+            var fd = new FormData();
+            fd.append('file', blob, 'audio.wav');
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: fd,
+                processData: false,
+                contentType: false
+            }).done(function (data) {
+                console.log(data)
+                if (data) {
+                    // data.redirect contains the string URL to redirect to
+                    $("html").html(data);
+                } else {
+                    // data.form contains the HTML for the replacement form
+                    // $("#myform").replaceWith(data.form);
+                }
+
+            });
+
         }
-        else {
-            // data.form contains the HTML for the replacement form
-            // $("#myform").replaceWith(data.form);
-        }
-    
-});
-    
-}
+    </script>
 
-       </script>
-
-<script src="recorder.js"></script>
+    <script src="recorder.js"></script>
 </body>
 
 </html>
