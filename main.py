@@ -2,11 +2,11 @@ import speech_recognition as sr
 
 def listener():
     r = sr.Recognizer()
-    m = sr.Microphone()
     try:
-        with m as source:
-            print('Start speaking and silence to stop recording.')
-            audio = r.listen(source)
+        with sr.AudioFile('uploads/recording.wav') as source:
+            print('recording.')
+            audio = r.record(source, duration=15)
+            print('done.')
         text = r.recognize_google(audio)
         print("You said : {}".format(text))
     except sr.UnknownValueError:
