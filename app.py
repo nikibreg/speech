@@ -3,12 +3,11 @@ import os
 from werkzeug.utils import secure_filename
 from main import main
 
-UPLOAD_FOLDER = './uploads'
+UPLOAD_FOLDER = 'uploads/'
 app = Flask(__name__, static_url_path='')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = "super secret key"
 
-print(os.path.join(os.path.dirname(__file__), app.config['UPLOAD_FOLDER']), os.path.dirname(__file__), os.path.join(os.path.dirname(__file__), '../') )
 
 @app.route('/', methods=['GET', 'POST'])
 def root():
