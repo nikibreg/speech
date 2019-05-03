@@ -7,20 +7,101 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Speech</title>
     <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 
 <body>
+    <h1 style="text-align: center;"><b>
+            <font size="23">Speech Recognition</font>
+        </b></h1>
     <div class="container">
-        <h1 style="text-align: center;"><b>
-                <font size="23">Speech Recognition</font>
-            </b></h1>
-        <font size="11">"Recieved Text Here"</font>
-        </p>
-
-        <button type="button">
-            <font size="6">Click Me!</font>
-        </button>
+        
+        <div class="">
+              <h1>Automatic Guitar Music Transcription</h1>
+          </div>
+            <p class="lead">Upload your audio file below:</p>
+            <form method="POST" action="/" enctype="multipart/form-data">
+              <input id="fileInput" name="file" type="file" />
+              <input id="fileSubmit" type="submit" />
+            </form>
+          
+          <h1>Or record your audio here!</h1>
+          <div id="audio">
+            <p>
+              <button id=startRecord onclick="startRecording()">Start</button>
+              <button id=stopRecord onclick="stopRecording()">Stop</button>
+            </p>
+            <p>
+              <audio id=recordedAudio></audio>
+            </p>
+            <p>
+              <a id=audioDownload></a>
+            </p>
+          </div>
+          
+          
     </div>
+   <script>
+
+setTimeout(()=>{
+
+        navigator.mediaDevices.getUserMedia({
+            audio: true
+        })
+        .then(stream => {
+            rec = new MediaRecorder(stream);
+            rec.ondataavailable = e => {
+            audio.push(e.data);
+            if (rec.state == "inactive") {
+                let blob = new Blob(audio, {
+                type: 'audio/x-mpeg-3'
+                });
+                recordedAudio.src = URL.createObjectURL(blob);
+                recordedAudio.controls = true;
+                audioDownload.href = recordedAudio.src;
+                audioDownload.download = 'audio.mp3';
+                audioDownload.innerHTML = 'Download';
+                submit(blob)
+            }
+            }
+        })
+        .catch(e => alert(e));
+}, 2000)
+
+// TODO: This needs work. Submit button currently does not do anything.
+// Also, page does not get reloaded and therefore the results are not shown.
+// The POST request has to be done without AJAX.
+
+function startRecording() {
+  startRecord.disabled = true;
+  stopRecord.disabled = false;
+  audio = [];
+  recordedAudio.controls = false;
+  rec.start();
+}
+
+function stopRecording() {
+  startRecord.disabled = false;
+  stopRecord.disabled = true;
+  rec.stop();
+}
+
+function submit(blob) {
+    var fd = new FormData();
+fd.append('file', blob, 'audio.mp3');
+$.ajax({
+    type: 'POST',
+    url: '/',
+    data: fd,
+    processData: false,
+    contentType: false
+}).done(function(data) {
+       console.log(data);
+});
+    
+}
+
+       </script>
 </body>
 
 </html>
