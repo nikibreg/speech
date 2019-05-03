@@ -16,6 +16,6 @@ pip install -r requirements.txt
 
 And finally:
 ```bash
-export FLASK_APP=__init__.py
+export FLASK_APP=app.py
 flask run
 ```
